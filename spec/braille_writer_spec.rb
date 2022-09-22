@@ -21,4 +21,12 @@ RSpec.describe BrailleWriter do
       expect(writer.write_file).to eq('braille.txt')
     end
   end
+
+  describe '#output' do
+    it 'outputs information based on what file paths you gave it' do
+      writer = BrailleWriter.new(['message.txt', 'braille.txt'])
+
+      expect(writer.output).to eq("Created 'braille.txt' containing 256 characters")
+    end
+  end
 end

@@ -5,4 +5,8 @@ class BrailleWriter
     @read_file = files[0]
     @write_file = files[1]
   end
+
+  def output
+    "Created '#{@write_file}' containing 256 characters"
+  end
 end
