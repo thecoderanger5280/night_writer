@@ -8,5 +8,11 @@ RSpec.describe BraileWriter do
 
       expect(writer).to be_an_instance_of(BraileWriter)
     end
+
+    it 'has a read file name' do
+      writer = BraileWriter.new
+
+      expect(writer.read_file).to be_an_instance_of(String)
+    end
   end
 end
