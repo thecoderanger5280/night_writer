@@ -6,16 +6,15 @@ class BrailleWriter < BrailleDictionary
   def initialize(files)
     @read_file = files[0]
     @write_file = files[1]
-    @message_file = File.open(@read_file, "r")
+    @message_file = File.open(@read_file, "r").read
     @braille_file = File.open(@write_file, "w")
-    @read_file_length = @message_file.read.length
   end
 
   def output
-    "Created '#{@write_file}' containing #{@read_file_length} characters"
+    "Created '#{@write_file}' containing #{@message_file.length} characters"
   end
 
-  def braille_converter(message)
+  def braille_converter(message = @message_file)
     letters = message.split("")
     braille = letters.map do |letter|
       braille_dictionary[letter].flatten
@@ -44,6 +43,6 @@ class BrailleWriter < BrailleDictionary
     else
       str = "#{top_line}\n#{middle_line}\n#{bottom_line}\n"
     end
-    str
+    @braille_file.write(str)
   end
 end
