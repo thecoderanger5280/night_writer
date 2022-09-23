@@ -153,7 +153,6 @@ class BrailleWriter
   def braille_converter(message)
     letters = message.split("")
     braille = letters.map do |letter|
-      # require 'pry'; binding.pry
       @braille_dictionary[letter].flatten
     end
     top_line = ""
@@ -164,8 +163,21 @@ class BrailleWriter
       middle_line << letter[1]
       bottom_line << letter[2]
     end
-    "#{top_line}\n#{middle_line}\n#{bottom_line}\n"
-    # require 'pry'; binding.pry
-    # "0.\n00\n.."
+    str = ""
+    if(top_line.length > 80)
+      top_lines = top_line.scan(/.{80}/)
+      middle_lines = middle_line.scan(/.{80}/)
+      bottom_lines = bottom_line.scan(/.{80}/)
+      top_lines.each_with_index do |_, i|
+        str << top_lines[i]
+        str << "\n"
+        str << middle_lines[i]
+        str << "\n"
+        str << bottom_lines[i]
+        str << "\n"
+      end
+    else
+      "#{top_line}\n#{middle_line}\n#{bottom_line}\n"
+    end
   end
 end
