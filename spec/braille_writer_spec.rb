@@ -48,5 +48,13 @@ RSpec.describe BrailleWriter do
 
       expect(writer.braille_converter(writer.message_file.read)).to eq("0.0.0.0.0....00.0.0.00\n00.00.0..0..00.0000..0\n....0.0.0....00.0.0...\n")
     end
+    
+    it 'can add a line break at 80 characters' do
+      writer = BrailleWriter.new(['message.txt', 'braille.txt'])
+      allow(writer).to receive(:message_file).and_return(double("message_file"))
+      allow(writer.message_file).to receive(:read).and_return('                                                                                ')
+
+      expect(writer.braille_converter(writer.message_file.read)).to eq("                                                                                \n                                                                                \n                                                                                \n                                                                                \n                                                                                \n                                                                                \n")
+    end
   end
 end
