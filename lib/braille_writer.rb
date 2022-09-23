@@ -1,4 +1,6 @@
-class BrailleWriter
+require_relative 'braille_dictionary'
+
+class BrailleWriter < BrailleDictionary
   attr_reader :read_file,
               :write_file
   def initialize(files)
@@ -7,143 +9,6 @@ class BrailleWriter
     @message_file = File.open(@read_file, "r")
     @braille_file = File.open(@write_file, "w")
     @read_file_length = @message_file.read.length
-    @braille_dictionary = {
-      'a' => [
-        ['0.'],
-        ['..'],
-        ['..']
-      ],
-      'b' => [
-        ['0.'],
-        ['0.'],
-        ['..']
-      ],
-      'c' => [
-        ['00'],
-        ['..'],
-        ['..']
-      ],
-      'd' => [
-        ['00'],
-        ['.0'],
-        ['..']
-      ],
-      'e' => [
-        ['0.'],
-        ['.0'],
-        ['..']
-      ],
-      'f' => [
-        ['00'],
-        ['0.'],
-        ['..']
-      ],
-      'g' => [
-        ['00'],
-        ['00'],
-        ['..']
-      ],
-      'h' => [
-        ['0.'],
-        ['00'],
-        ['..']
-      ],
-      'i' => [
-        ['.0'],
-        ['0.'],
-        ['..']
-      ],
-      'j' => [
-        ['.0'],
-        ['00'],
-        ['..']
-      ],
-      'k' => [
-        ['0.'],
-        ['..'],
-        ['0.']
-      ],
-      'l' => [
-        ['0.'],
-        ['0.'],
-        ['0.']
-      ],
-      'm' => [
-        ['00'],
-        ['..'],
-        ['0.']
-      ],
-      'n' => [
-        ['00'],
-        ['.0'],
-        ['0.']
-      ],
-      'o' => [
-        ['0.'],
-        ['.0'],
-        ['0.']
-      ],
-      'p' => [
-        ['00'],
-        ['0.'],
-        ['0.']
-      ],
-      'q' => [
-        ['00'],
-        ['00'],
-        ['0.']
-      ],
-      'r' => [
-        ['0.'],
-        ['00'],
-        ['0.']
-      ],
-      's' => [
-        ['.0'],
-        ['0.'],
-        ['0.']
-      ],
-      't' => [
-        ['.0'],
-        ['00'],
-        ['0.']
-      ],
-      'u' => [
-        ['0.'],
-        ['..'],
-        ['00']
-      ],
-      'v' => [
-        ['0.'],
-        ['0.'],
-        ['00']
-      ],
-      'w' => [
-        ['.0'],
-        ['00'],
-        ['.0']
-      ],
-      'x' => [
-        ['00'],
-        ['..'],
-        ['00']
-      ],
-      'y' => [
-        ['00'],
-        ['.0'],
-        ['00']
-      ],
-      'z' => [
-        ['0.'],
-        ['.0'],
-        ['00']
-      ],
-      ' ' => [
-        ['..'],
-        ['..'],
-        ['..']
-      ]
-    }
   end
 
   def output
@@ -153,7 +18,7 @@ class BrailleWriter
   def braille_converter(message)
     letters = message.split("")
     braille = letters.map do |letter|
-      @braille_dictionary[letter].flatten
+      braille_dictionary[letter].flatten
     end
     top_line = ""
     middle_line = ""
@@ -177,7 +42,8 @@ class BrailleWriter
         str << "\n"
       end
     else
-      "#{top_line}\n#{middle_line}\n#{bottom_line}\n"
+      str = "#{top_line}\n#{middle_line}\n#{bottom_line}\n"
     end
+    str
   end
 end
