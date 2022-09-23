@@ -6,13 +6,10 @@ class BrailleWriter
     @write_file = files[1]
     @message_file = File.open(@read_file, "r")
     @braille_file = File.open(@write_file, "w")
+    @read_file_length = @message_file.read.length
   end
 
   def output
-    "Created '#{@write_file}' containing #{read_file_length} characters"
-  end
-
-  def read_file_length
-    @message_file.read.length
+    "Created '#{@write_file}' containing #{@read_file_length} characters"
   end
 end
