@@ -25,9 +25,20 @@ RSpec.describe BrailleWriter do
   describe '#output' do
     it 'outputs information based on what file paths you gave it' do
       writer = BrailleWriter.new(['message.txt', 'braille.txt'])
-      allow(writer).to receive(:read_file_length).and_return(256)
+      allow(writer).to receive(:read_file_length).and_return(11)
 
       expect(writer.output).to eq("Created '#{writer.write_file}' containing #{writer.read_file_length} characters")
+    end
+  end
+
+  describe '#braille_converter' do
+    it 'can write to the new file' do
+      writer = BrailleWriter.new(['message.txt', 'braille.txt'])
+      allow(writer).to receive(:message_file).and_return(double("message_file"))
+      allow(writer.message_file).to receive(:read).and_return('hh')
+
+      expect(writer.braille_converter(writer.message_file.read)).to eq("0.\n00\n..")
+      # require 'pry'; binding.pry
     end
   end
 end
