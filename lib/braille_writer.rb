@@ -28,10 +28,10 @@ class BrailleWriter < BrailleDictionary
       bottom_line << letter[2]
     end
     str = ""
-    if(top_line.length > 80)
-      top_lines = top_line.scan(/.{80}/)
-      middle_lines = middle_line.scan(/.{80}/)
-      bottom_lines = bottom_line.scan(/.{80}/)
+    if(top_line.length >= 80)
+      top_lines = top_line.chars.each_slice(80).map(&:join)
+      middle_lines = middle_line.chars.each_slice(80).map(&:join)
+      bottom_lines = bottom_line.chars.each_slice(80).map(&:join)
       top_lines.each_with_index do |_, i|
         str << top_lines[i]
         str << "\n"
