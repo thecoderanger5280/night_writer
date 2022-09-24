@@ -27,7 +27,7 @@ RSpec.describe BrailleWriter do
       writer = BrailleWriter.new(['message.txt', 'braille.txt'])
       allow(writer).to receive(:read_file_length).and_return(11)
 
-      expect(writer.output).to eq("Created '#{writer.write_file}' containing #{writer.read_file_length} characters")
+      expect(writer.output).to eq("Created '#{writer.write_file}' containing #{writer.read_file_length} characters.")
     end
   end
 
