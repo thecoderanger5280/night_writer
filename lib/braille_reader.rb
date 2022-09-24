@@ -15,21 +15,14 @@ class BrailleReader < BrailleDictionary
   end
 
   def original_message_length
-    top_line = ""
-    middle_line = ""
     bottom_line = ""
     @braille_file.each_with_index do |line, i|
       if((i + 1) % 3 == 0)
         bottom_line << line
-      elsif((i + 2) % 3 == 0)
-        middle_line << line
-      else
-        top_line << line
       end
     end
-    top_line = top_line.split("\n").join("")
-    # require 'pry'; binding.pry
-    top_line.length / 2
+    bottom_line = bottom_line.split("\n").join("")
+    bottom_line.length / 2
   end
 
   def english_converter(braille = @braille_file)
@@ -55,7 +48,6 @@ class BrailleReader < BrailleDictionary
     top_lines = top_line.chars.each_slice(2).map(&:join)
     middle_lines = middle_line.chars.each_slice(2).map(&:join)
     bottom_lines = bottom_line.chars.each_slice(2).map(&:join)
-    # require 'pry'; binding.pry
     top_lines.each_with_index do |_, i|
       char = []
       char << top_lines[i]
@@ -67,20 +59,14 @@ class BrailleReader < BrailleDictionary
     braille_dictionary.each do |letter, braille|
       english_dictionary[braille.flatten] = letter
     end
-    # require 'pry'; binding.pry
-    # english_dictionary = english_dictionary.invert
     str = ""
     message = message.map do |letter|
       english_dictionary[letter]
     end
-    # require 'pry'; binding.pry
-    # message.flatten
     message.each do |letter|
-      # require 'pry'; binding.pry
       str << letter
     end
-    str
     @original_message_file.write(str)
-    # require 'pry'; binding.pry
+    str
   end
 end
