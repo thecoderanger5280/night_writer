@@ -44,5 +44,6 @@ class BrailleWriter < BrailleDictionary
       str = "#{top_line}\n#{middle_line}\n#{bottom_line}\n"
     end
     @braille_file.write(str)
+    str
   end
 end
