@@ -11,11 +11,23 @@ class BrailleWriter < BrailleDictionary
   end
 
   def output
-    "Created '#{@write_file}' containing #{@message_file.length} characters"
+    "Created '#{@write_file}' containing #{@message_file.length} characters."
   end
 
   def braille_converter(message = @message_file)
     letters = message.split("")
+    top_line_english = ""
+    middle_line_english = ""
+    bottom_line_english = ""
+    letters.each_with_index do |line, i|
+      if((i + 1) % 3 == 0)
+        bottom_line_english << line
+      elsif((i + 2) % 3 == 0)
+        middle_line_english << line
+      else
+        top_line_english << line
+      end
+    end
     braille = letters.map do |letter|
       braille_dictionary[letter].flatten
     end
@@ -44,5 +56,6 @@ class BrailleWriter < BrailleDictionary
       str = "#{top_line}\n#{middle_line}\n#{bottom_line}\n"
     end
     @braille_file.write(str)
+    str
   end
 end
