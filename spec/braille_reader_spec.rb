@@ -21,4 +21,13 @@ RSpec.describe BrailleReader do
       expect(reader.write_file).to eq('original_message.txt')
     end
   end
+
+  describe '#output' do
+    it 'can output information based on what file paths you gave it' do
+      reader = BrailleReader.new(['braille.txt', 'original_message.txt'])
+      allow(reader)to receive(:original_message_length).and_return(11)
+
+      expect(reader.output).to eq("Created '#{reader.write_file}' containing #{reader.original_message_length} characters")
+    end
+  end
 end

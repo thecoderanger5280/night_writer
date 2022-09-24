@@ -11,7 +11,7 @@ class BrailleWriter < BrailleDictionary
   end
 
   def output
-    "Created '#{@write_file}' containing #{@message_file.length} characters"
+    "Created '#{@write_file}' containing #{@message_file.length} characters."
   end
 
   def braille_converter(message = @message_file)

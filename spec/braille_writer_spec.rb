@@ -23,7 +23,7 @@ RSpec.describe BrailleWriter do
   end
 
   describe '#output' do
-    it 'can output information based on what file paths you gave it' do
+    it 'outputs information based on what file paths you gave it' do
       writer = BrailleWriter.new(['message.txt', 'braille.txt'])
       allow(writer).to receive(:read_file_length).and_return(11)
 
