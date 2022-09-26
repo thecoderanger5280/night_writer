@@ -15,22 +15,8 @@ class BrailleWriter < BrailleDictionary
   end
 
   def braille_converter(message = @message_file)
-    letters = message.split("")
-    top_line_english = ""
-    middle_line_english = ""
-    bottom_line_english = ""
-    letters.each_with_index do |line, i|
-      if((i + 1) % 3 == 0)
-        bottom_line_english << line
-      elsif((i + 2) % 3 == 0)
-        middle_line_english << line
-      else
-        top_line_english << line
-      end
-    end
-    braille = letters.map do |letter|
-      braille_dictionary[letter].flatten
-    end
+    letters = message.gsub(/\n/, " ").split('')
+    braille = letters.map { |letter| braille_dictionary[letter].flatten}
     top_line = ""
     middle_line = ""
     bottom_line = ""

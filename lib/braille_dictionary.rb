@@ -138,8 +138,4 @@ class BrailleDictionary
       ]
     }
   end
-
-  # def english_dictionary
-
-  # end
 end
