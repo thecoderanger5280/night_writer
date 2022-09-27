@@ -22,17 +22,30 @@ class BrailleWriter < BrailleDictionary
     letters = message.gsub(/\n/, " ").split('')
     braille = captial_checker(letters)
     braille.each do |letter|
-      @top_lines << letter[0]
-      @middle_lines << letter[1]
-      @bottom_lines << letter[2]
+      if(letter.length == 1)
+        @top_lines << letter[0][0].join
+        @middle_lines << letter[0][1].join
+        @bottom_lines << letter[0][2].join
+      elsif(letter.length == 2)
+        @top_lines << letter[0][0].join
+        @top_lines << letter[1][0].join
+        @middle_lines << letter[0][1].join
+        @middle_lines << letter[1][1].join
+        @bottom_lines << letter[0][2].join
+        @bottom_lines << letter[1][2].join
+      end
     end
     break_line
     write_to_file
   end
 
+  def convert_to_string
+
+  end
+
   def break_line
-    @top_lines = @top_lines.chars.each_slice(80).map(&:join)
-    @middle_lines = @middle_lines.chars.each_slice(80).map(&:join)
+    @top_lines = @top_lines.chars.each.each_slice(80).map(&:join)
+    @middle_lines = @middle_lines.chars.each.each_slice(80).map(&:join)
     @bottom_lines = @bottom_lines.chars.each_slice(80).map(&:join)
   end
 
@@ -54,14 +67,14 @@ class BrailleWriter < BrailleDictionary
     letters.map do |letter|
       braille_letter = []
       if(letter == " ")
-        braille_letter << braille_dictionary[letter].flatten
+        braille_letter << braille_dictionary[letter]
       elsif(letter == letter.upcase)
-        braille_letter << braille_dictionary['shift'].flatten
-        braille_letter << braille_dictionary[letter.downcase].flatten
+        braille_letter << braille_dictionary['shift']
+        braille_letter << braille_dictionary[letter.downcase]
       else
-        braille_letter << braille_dictionary[letter].flatten
+        braille_letter << braille_dictionary[letter]
       end
-      braille_letter.flatten
+      braille_letter
     end
   end
 end
