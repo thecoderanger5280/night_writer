@@ -25,7 +25,6 @@ class BrailleReader < BrailleDictionary
   def original_message_length
     bottom_line = ""
     @braille_file.each_with_index do |line, i|
-      # require 'pry'; binding.pry
       if((i + 1) % 3 == 0)
         bottom_line << line
       end
@@ -35,6 +34,7 @@ class BrailleReader < BrailleDictionary
   end
 
   def split_braille
+    english_dictionary = invert_dictionary
     @top_line = @top_line.split("\n").join
     @middle_line = @middle_line.split("\n").join
     @bottom_line = @bottom_line.split("\n").join
@@ -60,11 +60,25 @@ class BrailleReader < BrailleDictionary
       char << @bottom_lines[i]
       @message << char
     end
+    capital = false
     @message = @message.map do |letter|
-      english_dictionary[letter]
+      english_letter = []
+      if(english_dictionary[letter] != 'shift')
+        if(capital == true && english_dictionary[letter] != 'shift')
+          english_letter << english_dictionary[letter].upcase
+          capital = false
+        else
+          english_letter << english_dictionary[letter]
+        end
+      elsif(english_dictionary[letter] == 'shift')
+        capital = true
+      end
+      english_letter
     end
     @message.each do |letter|
-      @str << letter
+      if(letter != nil)
+        letter.each { |line| @str << line}
+      end
     end
     @original_message_file.write(@str)
   end
