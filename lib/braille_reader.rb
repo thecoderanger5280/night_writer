@@ -26,14 +26,6 @@ class BrailleReader < BrailleDictionary
     message = break_message
     english = captial_checker(message).flatten
     english.length
-    # bottom_line = ""
-    # braille.each_with_index do |line, i|
-    #   if((i + 1) % 3 == 0)
-    #     bottom_line << line
-    #   end
-    # end
-    # bottom_line = bottom_line.split("\n").join("")
-    # bottom_line.length / 2
   end
 
   def split_braille
