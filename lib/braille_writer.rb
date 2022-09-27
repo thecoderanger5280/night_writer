@@ -20,7 +20,7 @@ class BrailleWriter < BrailleDictionary
 
   def braille_converter(message = @message_file)
     letters = message.gsub(/\n/, " ").split('')
-    braille = letters.map { |letter| braille_dictionary[letter].flatten}
+    braille = captial_checker(letters)
     braille.each do |letter|
       @top_lines << letter[0]
       @middle_lines << letter[1]
@@ -48,5 +48,20 @@ class BrailleWriter < BrailleDictionary
     end
     @braille_file.write(braille_message)
     braille_message
+  end
+
+  def captial_checker(letters)
+    letters.map do |letter|
+      braille_letter = []
+      if(letter == " ")
+        braille_letter << braille_dictionary[letter].flatten
+      elsif(letter == letter.upcase)
+        braille_letter << braille_dictionary['shift'].flatten
+        braille_letter << braille_dictionary[letter.downcase].flatten
+      else
+        braille_letter << braille_dictionary[letter].flatten
+      end
+      braille_letter.flatten
+    end
   end
 end
