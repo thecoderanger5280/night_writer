@@ -60,13 +60,20 @@ class BrailleReader < BrailleDictionary
       char << @bottom_lines[i]
       @message << char
     end
+    capital = false
     @message = @message.map do |letter|
       english_letter = []
       if(english_dictionary[letter] != 'shift')
-        english_letter << english_dictionary[letter]
+        if(capital == true && english_dictionary[letter] != 'shift')
+          english_letter << english_dictionary[letter].upcase
+          capital = false
+        else
+          english_letter << english_dictionary[letter]
+        end
+      elsif(english_dictionary[letter] == 'shift')
+        capital = true
       end
-      require 'pry'; binding.pry
-
+      english_letter
     end
     @message.each do |letter|
       if(letter != nil)
