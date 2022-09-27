@@ -2,7 +2,8 @@ require_relative 'braille_dictionary'
 
 class BrailleWriter < BrailleDictionary
   attr_reader :read_file,
-              :write_file
+              :write_file,
+              :message_file
   def initialize(files)
     @read_file = files[0]
     @write_file = files[1]

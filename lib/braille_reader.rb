@@ -17,6 +17,7 @@ class BrailleReader < BrailleDictionary
   def original_message_length
     bottom_line = ""
     @braille_file.each_with_index do |line, i|
+      # require 'pry'; binding.pry
       if((i + 1) % 3 == 0)
         bottom_line << line
       end
@@ -42,9 +43,9 @@ class BrailleReader < BrailleDictionary
         top_line << line
       end
     end
-    top_line = top_line.split("\n").join("")
-    middle_line = middle_line.split("\n").join("")
-    bottom_line = bottom_line.split("\n").join("")
+    top_line = top_line.split("\n").join
+    middle_line = middle_line.split("\n").join
+    bottom_line = bottom_line.split("\n").join
     top_lines = top_line.chars.each_slice(2).map(&:join)
     middle_lines = middle_line.chars.each_slice(2).map(&:join)
     bottom_lines = bottom_line.chars.each_slice(2).map(&:join)
