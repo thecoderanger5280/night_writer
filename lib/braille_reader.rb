@@ -23,14 +23,17 @@ class BrailleReader < BrailleDictionary
   end
 
   def original_message_length
-    bottom_line = ""
-    @braille_file.each_with_index do |line, i|
-      if((i + 1) % 3 == 0)
-        bottom_line << line
-      end
-    end
-    bottom_line = bottom_line.split("\n").join("")
-    bottom_line.length / 2
+    message = break_message
+    english = captial_checker(message).flatten
+    english.length
+    # bottom_line = ""
+    # braille.each_with_index do |line, i|
+    #   if((i + 1) % 3 == 0)
+    #     bottom_line << line
+    #   end
+    # end
+    # bottom_line = bottom_line.split("\n").join("")
+    # bottom_line.length / 2
   end
 
   def split_braille
@@ -51,17 +54,10 @@ class BrailleReader < BrailleDictionary
     english_dictionary
   end
 
-  def write_to_file
+  def captial_checker(message)
     english_dictionary = invert_dictionary
-    @top_lines.each_with_index do |_, i|
-      char = []
-      char << @top_lines[i]
-      char << @middle_lines[i]
-      char << @bottom_lines[i]
-      @message << char
-    end
     capital = false
-    @message = @message.map do |letter|
+    message.map do |letter|
       english_letter = []
       if(english_dictionary[letter] != 'shift')
         if(capital == true && english_dictionary[letter] != 'shift')
@@ -75,7 +71,32 @@ class BrailleReader < BrailleDictionary
       end
       english_letter
     end
-    @message.each do |letter|
+  end
+
+  def break_message
+    message = []
+    @top_lines.each_with_index do |_, i|
+      char = []
+      char << @top_lines[i]
+      char << @middle_lines[i]
+      char << @bottom_lines[i]
+      message << char
+    end
+    message
+  end
+
+  def write_to_file
+    # message = []
+    # @top_lines.each_with_index do |_, i|
+    #   char = []
+    #   char << @top_lines[i]
+    #   char << @middle_lines[i]
+    #   char << @bottom_lines[i]
+    #   message << char
+    # end
+    message = break_message
+    message = captial_checker(message)
+    message.each do |letter|
       if(letter != nil)
         letter.each { |line| @str << line}
       end
